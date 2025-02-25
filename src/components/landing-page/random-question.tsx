@@ -1,5 +1,6 @@
 import React from "react";
 import { FaBrain } from "react-icons/fa";
+import { Button } from "../ui/button";
 
 export default function RandomQuestion() {
   return (
@@ -29,11 +30,13 @@ export default function RandomQuestion() {
               </button>
             ))}
           </div>
-          <div className="mt-6 flex justify-between items-center">
-            <span className="text-gray-500">Time remaining: 00:45</span>
-            <button className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition">
+          <div className="mt-6 flex">
+            <Button variant="outline" className="ml-auto" size="sm">
+              More Questions
+            </Button>
+            {/* <button className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition">
               Next Question
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

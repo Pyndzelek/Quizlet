@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { FaBrain } from "react-icons/fa";
+import { Button } from "./ui/button";
 
 export default function Navbar() {
   return (
@@ -13,11 +14,8 @@ export default function Navbar() {
           <Link href="/browse" className="text-gray-600 hover:text-indigo-600">
             Categories
           </Link>
-          <Link
-            href="/browse"
-            className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition"
-          >
-            Get Started
+          <Link href={"/browse"}>
+            <Button>Get started</Button>
           </Link>
         </div>
       </div>

@@ -6,7 +6,7 @@ import Challenge from "@/components/landing-page/challenge";
 export default function Home() {
   return (
     <div>
-      <div className="container mx-auto px-6 py-20">
+      <div className="container mx-auto  py-20">
         <div className="flex flex-col md:flex-row md:gap-5 items-center">
           <Welcome />
 
