@@ -1,16 +1,10 @@
-import { FaListOl, FaQuestionCircle } from "react-icons/fa";
+import { FaListOl } from "react-icons/fa";
 import Container from "./container";
-import QuestionCell from "./question-list-cell";
+import QuestionCell from "./question-cell";
+import { wholeQuiz } from "@/lib/types";
 
 type QuestionsListProps = {
-  quiz: {
-    questions: {
-      id: string;
-      text: string;
-      answers: string[];
-      correctAnswer: string;
-    }[];
-  };
+  quiz: wholeQuiz;
 };
 
 export default function QuestionsList({ quiz }: QuestionsListProps) {

@@ -1,12 +1,10 @@
 import { FaEdit, FaShareAlt } from "react-icons/fa";
 import { Button } from "../ui/button";
 import Container from "../container";
+import { QuizEssentials } from "@/lib/types";
 
 type QuizHeaderProps = {
-  quiz: {
-    title: string;
-    category: string;
-  };
+  quiz: QuizEssentials;
 };
 
 export default function QuizHeader({ quiz }: QuizHeaderProps) {

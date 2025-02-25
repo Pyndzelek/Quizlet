@@ -1,3 +1,4 @@
+import { getWholeQuizById } from "@/actions/actions";
 import QuestionsList from "@/components/quiestions-list";
 import QuizHeader from "@/components/quiz-details/quiz-header";
 
@@ -32,12 +33,15 @@ type QuizPageProps = {
   };
 };
 
-export default function QuizPage({ params }: QuizPageProps) {
+export default async function QuizPage({ params }: QuizPageProps) {
   const id = params.id;
+
+  const quiz = await getWholeQuizById(id);
+
   return (
     <>
       {/* Quiz Header */}
-      <QuizHeader quiz={quiz} />
+      <QuizHeader quiz={quiz.quiz} />
 
       {/* Questions List */}
       <QuestionsList quiz={quiz} />
