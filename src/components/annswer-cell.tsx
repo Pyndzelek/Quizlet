@@ -8,7 +8,7 @@ type AnswerCellProps = {
 export default function AnswerCell({ text, isCorrect }: AnswerCellProps) {
   return (
     <div
-      className={`p-3 rounded-lg ${
+      className={`p-3 rounded-lg cursor-default ${
         isCorrect
           ? "bg-green-100 border-green-500"
           : "bg-gray-50 border-gray-200"
