@@ -1,6 +1,6 @@
 import { FaListOl } from "react-icons/fa";
 import Container from "./container";
-import QuestionCell from "./question-cell";
+import QuestionListCell from "./question-cell";
 import { wholeQuiz } from "@/lib/types";
 
 type QuestionsListProps = {
@@ -13,7 +13,7 @@ export default function QuestionsList({ quiz }: QuestionsListProps) {
       <QuestionsHeader />
       <div className="space-y-6">
         {quiz.questions.map((question, index) => (
-          <QuestionCell key={index} question={question} />
+          <QuestionListCell key={index} question={question} />
         ))}
       </div>
     </Container>
