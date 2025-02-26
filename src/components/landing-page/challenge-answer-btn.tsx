@@ -15,7 +15,7 @@ export default function ChallengeAnswerBtn({
     ? id === 2
       ? "text-green-600 bg-green-100 border-green-500 hover:bg-green-100 hover:border-green-500"
       : "text-red-600 bg-red-100 border-red-500 hover:bg-red-100 hover:border-red-500"
-    : " ";
+    : " hover:border-indigo-300 hover:bg-indigo-50 ";
 
   const handleClick = () => {
     setisClicked(true);
@@ -25,7 +25,7 @@ export default function ChallengeAnswerBtn({
   return (
     <button
       key={id}
-      className={`w-full p-4 text-left rounded-lg border hover:border-indigo-300 hover:bg-indigo-50 transition-colors duration-200 ${classNameElement}`}
+      className={`w-full p-4 text-left rounded-lg border transition-colors duration-200 ${classNameElement}`}
       onClick={handleClick}
     >
       {children}

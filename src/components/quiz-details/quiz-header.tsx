@@ -1,7 +1,8 @@
-import { FaEdit, FaShareAlt } from "react-icons/fa";
+import { FaEdit, FaPlay, FaShareAlt } from "react-icons/fa";
 import { Button } from "../ui/button";
 import Container from "../container";
 import { QuizEssentials } from "@/lib/types";
+import Link from "next/link";
 
 type QuizHeaderProps = {
   quiz: QuizEssentials;
@@ -18,9 +19,11 @@ export default function QuizHeader({ quiz }: QuizHeaderProps) {
           <p className="text-indigo-600 font-medium">{quiz.category}</p>
         </div>
         <div className="flex gap-3 mt-4 md:mt-0">
-          <Button>
-            <FaEdit /> Edit Quiz
-          </Button>
+          <Link href={`/quiz/${quiz.id}/play`}>
+            <Button>
+              <FaPlay style={{ width: "12px", height: "12px" }} /> Start quiz
+            </Button>
+          </Link>
           <Button variant="outline">
             <FaShareAlt /> Share
           </Button>

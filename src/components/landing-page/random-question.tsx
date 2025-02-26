@@ -32,14 +32,14 @@ export default function RandomQuestion() {
             )}
           </div>
           <div className="mt-6 flex">
-            <Link href="/browse" className="ml-auto">
+            <Link
+              href="/quiz/3c08dd89-3b4b-429b-8156-17b4d449d0ba"
+              className="ml-auto"
+            >
               <Button variant="outline" size="sm">
                 More Questions
               </Button>
             </Link>
-            {/* <button className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition">
-              Next Question
-            </button> */}
           </div>
         </div>
       </div>
