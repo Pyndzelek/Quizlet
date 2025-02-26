@@ -2,27 +2,27 @@ import { getWholeQuizById } from "@/actions/actions";
 import Container from "@/components/container";
 import QuestionGameCell from "@/components/question-game-cell";
 import { Progress } from "@/components/ui/progress";
-import React from "react";
+import Layout from "./layout";
+import QuizGame from "@/components/quiz-game";
+import GameContextProvider from "@/context/game-context-provider";
 
-type QuizGamePageProps = {
-  params: {
-    id: string;
-  };
-};
-
-export default async function QuizGamePage({ params }: QuizGamePageProps) {
-  const { id } = await params;
-
+export default async function QuizGamePage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const { id } = params;
   const quiz = await getWholeQuizById(id);
+
+  if (!quiz) {
+    return <div>Quiz not found</div>;
+  }
 
   return (
     <div className="h-[80vh] w-screen flex flex-col items-center justify-center">
-      <div className="w-[300px] mx-auto mt-5 -mb-1">
-        <Progress value={3} max={quiz.questions.length} />
-      </div>
-      <Container>
-        <QuestionGameCell question={quiz.questions[0]} />
-      </Container>
+      <GameContextProvider quiz={quiz}>
+        <QuizGame />
+      </GameContextProvider>
     </div>
   );
 }
