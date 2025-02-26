@@ -1,15 +1,20 @@
 import { FaQuestionCircle } from "react-icons/fa";
 import AnswerCell from "./annswer-cell";
 import { AnswerEssentials, QuestionEssentials, wholeQuiz } from "@/lib/types";
+import AnswerResultCell from "./answer-result-cell";
 
 type QuestionListCellProps = {
   question: {
     question: QuestionEssentials;
     answers: AnswerEssentials[];
   };
+  type: "preview" | "result";
 };
 
-export default function QuestionListCell({ question }: QuestionListCellProps) {
+export default function QuestionListCell({
+  question,
+  type,
+}: QuestionListCellProps) {
   return (
     <div className="border rounded-lg p-6 hover:shadow-md transition ">
       <div className="flex items-center gap-2 mb-4">
@@ -23,13 +28,17 @@ export default function QuestionListCell({ question }: QuestionListCellProps) {
 
       {/* answers */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {question.answers.map((answer, answerIndex) => (
-          <AnswerCell
-            text={answer.text}
-            isCorrect={answer.isCorrect}
-            key={answerIndex}
-          />
-        ))}
+        {type === "preview"
+          ? question.answers.map((answer, answerIndex) => (
+              <AnswerCell
+                text={answer.text}
+                isCorrect={answer.isCorrect}
+                key={answerIndex}
+              />
+            ))
+          : question.answers.map((answer) => (
+              <AnswerResultCell answer={answer} key={answer.id} />
+            ))}
       </div>
     </div>
   );

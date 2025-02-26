@@ -1,4 +1,5 @@
 import { getWholeQuizById } from "@/actions/actions";
+import Container from "@/components/container";
 import QuestionsList from "@/components/quiestions-list";
 import QuizHeader from "@/components/quiz-details/quiz-header";
 
@@ -19,7 +20,9 @@ export default async function QuizPage({ params }: QuizPageProps) {
       <QuizHeader quiz={quiz.quiz} />
 
       {/* Questions List */}
-      <QuestionsList quiz={quiz} />
+      <Container>
+        <QuestionsList type="preview" quiz={quiz} />
+      </Container>
     </>
   );
 }

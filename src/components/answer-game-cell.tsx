@@ -8,13 +8,13 @@ type AnswerCellProps = {
 };
 
 export default function AnswerGameCell({ answer }: AnswerCellProps) {
-  const { setCurrentQuestion } = useGameContext();
+  const { handleOnAnswerButtonClick } = useGameContext();
 
-  const handleOnClick = () => {
-    setCurrentQuestion((prev) => prev + 1);
-  };
   return (
-    <Button variant={"secondary"} onClick={handleOnClick}>
+    <Button
+      variant={"secondary"}
+      onClick={() => handleOnAnswerButtonClick(answer.id)}
+    >
       {answer.text}
     </Button>
   );

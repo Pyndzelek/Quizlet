@@ -1,5 +1,3 @@
-import React from "react";
-
 type AnswerCellProps = {
   text: string;
   isCorrect: boolean;

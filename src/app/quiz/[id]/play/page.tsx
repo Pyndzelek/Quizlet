@@ -19,7 +19,7 @@ export default async function QuizGamePage({
   }
 
   return (
-    <div className="h-[80vh] w-screen flex flex-col items-center justify-center">
+    <div className="min-h-[80vh] w-screen flex flex-col items-center justify-center">
       <GameContextProvider quiz={quiz}>
         <QuizGame />
       </GameContextProvider>
