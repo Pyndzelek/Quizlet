@@ -3,6 +3,7 @@ import { useGameContext } from "@/lib/hooks";
 import React from "react";
 import QuestionsList from "./quiestions-list";
 import { wholeQuiz } from "@/lib/types";
+import { Separator } from "./ui/separator";
 
 type GameResultProps = {
   quiz: wholeQuiz;
@@ -59,6 +60,8 @@ export default function GameResult({ quiz }: GameResultProps) {
           </div>
         </div>
       </div>
+
+      <Separator className="mb-5" />
       <QuestionsList quiz={quiz} type="result" />
     </>
   );
