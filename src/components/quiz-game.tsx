@@ -6,6 +6,7 @@ import { wholeQuiz } from "@/lib/types";
 import QuestionGameCell from "./question-game-cell";
 import { useGameContext } from "@/lib/hooks";
 import GameResult from "./game-result";
+import { cn } from "@/lib/utils";
 
 type QuizGameProps = {
   quiz: wholeQuiz;
@@ -21,7 +22,12 @@ export default function QuizGame() {
   } = useGameContext();
   return (
     <>
-      <div className="w-[300px] mx-auto mt-5 -mb-1">
+      <div
+        className={cn(
+          "w-[300px] mx-auto mt-8 -mb-1",
+          isShowingResults && "hidden mt-0"
+        )}
+      >
         <Progress
           value={isShowingResults ? 100 : progressValue}
           max={numberOfQuestions}
