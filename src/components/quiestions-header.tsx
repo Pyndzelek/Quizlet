@@ -1,7 +1,7 @@
 import { FaListOl } from "react-icons/fa";
 import { Button } from "./ui/button";
 
-export default function QuestionsHeader() {
+export default function QuestionsHeader({ onClick }: { onClick: () => void }) {
   return (
     <div className="flex items-center justify-between  mb-4">
       <div className="flex items-center gap-2">
@@ -9,7 +9,9 @@ export default function QuestionsHeader() {
 
         <h2 className="text-2xl font-bold text-gray-800">Questions</h2>
       </div>
-      <Button variant={"secondary"}>Show correct answers</Button>
+      <Button variant={"secondary"} onClick={onClick}>
+        Show correct answers
+      </Button>
     </div>
   );
 }

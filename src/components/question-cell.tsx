@@ -9,11 +9,13 @@ type QuestionListCellProps = {
     answers: AnswerEssentials[];
   };
   type: "preview" | "result";
+  isShowingAnswers?: boolean;
 };
 
 export default function QuestionListCell({
   question,
   type,
+  isShowingAnswers,
 }: QuestionListCellProps) {
   return (
     <div className="border rounded-lg p-6 hover:shadow-md transition ">
@@ -31,6 +33,7 @@ export default function QuestionListCell({
         {type === "preview"
           ? question.answers.map((answer, answerIndex) => (
               <AnswerCell
+                isShowingAnswers={isShowingAnswers}
                 text={answer.text}
                 isCorrect={answer.isCorrect}
                 key={answerIndex}
