@@ -8,6 +8,16 @@ import {
 } from "./ui/tooltip";
 import { cn } from "@/lib/utils";
 import { Switch } from "./ui/switch";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown";
+import { Button } from "./ui/button";
+import { IoIosArrowDropdownCircle } from "react-icons/io";
 
 type QuiestionsHeaderProps = {
   onShowQuestions: () => void;
@@ -33,7 +43,37 @@ export default function QuestionsHeader({
         <FaListOl className="text-2xl text-indigo-600" />
 
         <h2 className="text-2xl font-bold text-gray-800">Questions</h2>
+      </div>
 
+      {isShowingQuestions ? (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <IoIosArrowDropdownCircle className="h-7 w-7 text-indigo-600 hover:text-indigo-500" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-auto">
+            <DropdownMenuLabel>Options</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+
+            <DropdownMenuItem className="flex items-center gap-3 px-3">
+              <Switch
+                id="questions"
+                checked={isShowingQuestions}
+                onCheckedChange={onShowQuestions}
+                aria-readonly
+              />
+              <label htmlFor="questions">Questions</label>
+            </DropdownMenuItem>
+            <DropdownMenuItem className="flex items-center gap-3 px-3">
+              <Switch
+                id="answers"
+                checked={isShowingAnswers}
+                onCheckedChange={onShowAnswers}
+              />
+              <label htmlFor="answers">Answers</label>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      ) : (
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -41,29 +81,14 @@ export default function QuestionsHeader({
                 onClick={onShowQuestions}
                 className="text-sm flex items-center gap-1"
               >
-                {!isShowingQuestions ? (
-                  <IoMdEyeOff className="h-7 w-7 text-indigo-600" />
-                ) : (
-                  <IoMdEye className="h-7 w-7 text-indigo-600" />
-                )}
+                <IoMdEyeOff className="h-7 w-7 text-indigo-600 hover:text-indigo-500" />
               </button>
             </TooltipTrigger>
             <TooltipContent>
-              {isShowingQuestions ? (
-                <p>Hide questions</p>
-              ) : (
-                <p>Show questions</p>
-              )}
+              <p>Show questions</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
-      </div>
-
-      {isShowingQuestions && (
-        <div className="flex items-center space-x-2">
-          <Switch />
-          <p>Show answes</p>
-        </div>
       )}
     </div>
   );

@@ -4,7 +4,6 @@ import QuestionListCell from "./question-cell";
 import { wholeQuiz } from "@/lib/types";
 import QuestionsHeader from "./quiestions-header";
 import { useState } from "react";
-import { FaSlidersH } from "react-icons/fa";
 
 type QuestionsListProps = {
   quiz: wholeQuiz;
@@ -34,6 +33,7 @@ export default function QuestionsList({ quiz, type }: QuestionsListProps) {
               key={index}
               question={question}
               isShowingAnswers={isShowingAnswers}
+              numberOfQuestion={index + 1}
             />
           ))}
         </div>

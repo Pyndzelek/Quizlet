@@ -10,18 +10,20 @@ type QuestionListCellProps = {
   };
   type: "preview" | "result";
   isShowingAnswers?: boolean;
+  numberOfQuestion?: number;
 };
 
 export default function QuestionListCell({
   question,
   type,
   isShowingAnswers,
+  numberOfQuestion,
 }: QuestionListCellProps) {
   return (
     <div className="border rounded-lg p-6 hover:shadow-md transition ">
       <div className="flex items-center gap-2 mb-4">
         <FaQuestionCircle className="text-indigo-600" />
-        <h3 className="font-semibold">Question</h3>
+        <h3 className="font-semibold">Question {numberOfQuestion}</h3>
       </div>
 
       <p className="text-lg text-gray-800 mb-4 font-bold">
