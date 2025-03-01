@@ -62,7 +62,7 @@ export default function QuestionsHeader({
       {isShowingQuestions && (
         <div className="flex items-center space-x-2">
           <Switch />
-          <p>Show answers</p>
+          <p>Show answes</p>
         </div>
       )}
     </div>
