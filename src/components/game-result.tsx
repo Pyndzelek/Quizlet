@@ -5,6 +5,8 @@ import QuestionsList from "./quiestions-list";
 import { wholeQuiz } from "@/lib/types";
 import { Separator } from "./ui/separator";
 import CircularDiagram from "./circular-diagram";
+import { Button } from "./ui/button";
+import Link from "next/link";
 
 type GameResultProps = {
   quiz: wholeQuiz;
@@ -16,7 +18,7 @@ export default function GameResult({ quiz }: GameResultProps) {
   const percentage = (resultScore / numberOfQuestions) * 100;
   return (
     <>
-      <div className="flex flex-col items-center justify-center bg-gray-100 p-4 rounded-md shadow-lg mb-10 ">
+      <div className="flex flex-col items-center justify-center bg-gray-100 p-4 rounded-md shadow-lg mb-7 ">
         <h2 className="text-3xl font-bold text-gray-900 mb-2">Quiz Results</h2>
         <div className="flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-12">
           {/* Circular Progress Diagram */}
@@ -32,6 +34,12 @@ export default function GameResult({ quiz }: GameResultProps) {
             </p>
           </div>
         </div>
+      </div>
+      <div className="flex items-center gap-3 mb-7">
+        <Button variant={"secondary"}>Restart</Button>
+        <Link href="/browse">
+          <Button variant={"ghost"}>More quizes</Button>
+        </Link>
       </div>
 
       <Separator className="mb-5" />

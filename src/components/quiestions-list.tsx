@@ -13,7 +13,9 @@ type QuestionsListProps = {
 export default function QuestionsList({ quiz, type }: QuestionsListProps) {
   //state variables
   const [isShowingAnswers, setIsShowingAnswers] = useState(false);
-  const [isShowingQuestions, setIsShowingQuestions] = useState(false);
+  const [isShowingQuestions, setIsShowingQuestions] = useState(
+    type === "result" ? true : false
+  );
   const handleShowAnswers = () => setIsShowingAnswers(!isShowingAnswers);
   const handleShowQuestions = () => setIsShowingQuestions(!isShowingQuestions);
 
@@ -24,6 +26,7 @@ export default function QuestionsList({ quiz, type }: QuestionsListProps) {
         onShowQuestions={handleShowQuestions}
         isShowingAnswers={isShowingAnswers}
         isShowingQuestions={isShowingQuestions}
+        type={type}
       />
       {isShowingQuestions && (
         <div className="space-y-6">

@@ -1,5 +1,5 @@
 import { FaListOl } from "react-icons/fa";
-import { IoMdEyeOff, IoMdEye } from "react-icons/io";
+import { IoMdEyeOff } from "react-icons/io";
 import {
   Tooltip,
   TooltipContent,
@@ -16,7 +16,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown";
-import { Button } from "./ui/button";
 import { IoIosArrowDropdownCircle } from "react-icons/io";
 
 type QuiestionsHeaderProps = {
@@ -24,6 +23,7 @@ type QuiestionsHeaderProps = {
   isShowingQuestions: boolean;
   onShowAnswers: () => void;
   isShowingAnswers: boolean;
+  type: "preview" | "result";
 };
 
 export default function QuestionsHeader({
@@ -31,7 +31,16 @@ export default function QuestionsHeader({
   isShowingQuestions,
   onShowAnswers,
   isShowingAnswers,
+  type,
 }: QuiestionsHeaderProps) {
+  if (type === "result") {
+    return (
+      <div className="flex items-center gap-2 mb-4">
+        <FaListOl className="text-2xl text-indigo-600" />
+        <h2 className="text-2xl font-bold text-gray-800">Questions</h2>
+      </div>
+    );
+  }
   return (
     <div
       className={cn(

@@ -20,7 +20,7 @@ export default function CircularDiagram({
           d="M18 2.0845
             a 15.9155 15.9155 0 0 1 0 31.831
             a 15.9155 15.9155 0 0 1 0 -31.831"
-          style={{ strokeDashoffset: 25 }} // Adjust as needed
+          style={{ strokeDashoffset: 0 }} // Adjust as needed
         />
       </svg>
       {/* Percentage Text */}
