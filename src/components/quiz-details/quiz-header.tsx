@@ -1,4 +1,4 @@
-import { FaEdit, FaPlay, FaShareAlt } from "react-icons/fa";
+import { FaPlay, FaShareAlt } from "react-icons/fa";
 import { Button } from "../ui/button";
 import Container from "../container";
 import { QuizEssentials } from "@/lib/types";

@@ -34,7 +34,7 @@ export default function GameContextProvider({
 
   //PROGRESS BAR
   const numberOfQuestions = quiz.questions.length;
-  let progressValue = (currentQuestion / numberOfQuestions) * 100;
+  const progressValue = (currentQuestion / numberOfQuestions) * 100;
 
   //ONGOING GAME
   const handleOnAnswerButtonClick = async (id: string) => {

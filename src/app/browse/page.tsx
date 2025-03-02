@@ -11,18 +11,6 @@ import Link from "next/link";
 import prisma from "@/lib/db";
 import { Button } from "@/components/ui/button";
 
-const question = {
-  id: "dfsfgfgs",
-  text: "What does CSS stand for?",
-  answers: [
-    "Cascading Style Sheets",
-    "Computer Style System",
-    "Creative Style Solution",
-    "Centralized Styling Service",
-  ],
-  correctAnswer: "Cascading Style Sheets",
-};
-
 export default async function BrowsePage() {
   const quizes = await prisma.quiz.findMany();
 

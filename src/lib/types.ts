@@ -12,10 +12,6 @@ export type AnswerEssentials = Omit<
   "createdAt" | "updatedAt" | "questionId"
 >;
 
-type QuestionWithAnswers = QuestionEssentials & {
-  answers: AnswerEssentials[];
-};
-
 export type wholeQuiz = {
   quiz: QuizEssentials;
   questions: {

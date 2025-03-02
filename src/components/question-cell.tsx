@@ -1,6 +1,6 @@
 import { FaQuestionCircle } from "react-icons/fa";
 import AnswerCell from "./annswer-cell";
-import { AnswerEssentials, QuestionEssentials, wholeQuiz } from "@/lib/types";
+import { AnswerEssentials, QuestionEssentials } from "@/lib/types";
 import AnswerResultCell from "./answer-result-cell";
 
 type QuestionListCellProps = {

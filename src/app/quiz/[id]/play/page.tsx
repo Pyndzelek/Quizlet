@@ -1,8 +1,4 @@
 import { getWholeQuizById } from "@/actions/actions";
-import Container from "@/components/container";
-import QuestionGameCell from "@/components/question-game-cell";
-import { Progress } from "@/components/ui/progress";
-import Layout from "./layout";
 import QuizGame from "@/components/quiz-game";
 import GameContextProvider from "@/context/game-context-provider";
 
