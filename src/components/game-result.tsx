@@ -37,7 +37,7 @@ export default function GameResult({ quiz }: GameResultProps) {
       </div>
       <div className="flex items-center gap-3 mb-7">
         <Button onClick={resetQuiz} variant={"secondary"}>
-          Restart
+          Try again
         </Button>
         <Link href="/browse">
           <Button variant={"ghost"}>More quizes</Button>

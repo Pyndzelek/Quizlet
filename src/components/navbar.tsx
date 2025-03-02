@@ -8,7 +8,7 @@ export default function Navbar() {
       <div className="flex items-center justify-between">
         <Link href={"/"} className="flex items-center space-x-2">
           <FaBrain className="text-3xl text-indigo-600" />
-          <span className="text-2xl font-bold text-gray-800">Quizlet</span>
+          <span className="text-2xl font-bold text-gray-800">Quizus</span>
         </Link>
         <div className="hidden md:flex items-center space-x-8">
           <Link href="/browse" className="text-gray-600 hover:text-indigo-600">
