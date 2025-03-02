@@ -13,7 +13,7 @@ type GameResultProps = {
 };
 
 export default function GameResult({ quiz }: GameResultProps) {
-  const { resultScore, numberOfQuestions, progressValue } = useGameContext();
+  const { resultScore, numberOfQuestions, resetQuiz } = useGameContext();
 
   const percentage = (resultScore / numberOfQuestions) * 100;
   return (
@@ -36,7 +36,9 @@ export default function GameResult({ quiz }: GameResultProps) {
         </div>
       </div>
       <div className="flex items-center gap-3 mb-7">
-        <Button variant={"secondary"}>Restart</Button>
+        <Button onClick={resetQuiz} variant={"secondary"}>
+          Restart
+        </Button>
         <Link href="/browse">
           <Button variant={"ghost"}>More quizes</Button>
         </Link>

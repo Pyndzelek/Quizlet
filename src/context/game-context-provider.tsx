@@ -19,6 +19,7 @@ type TGameContext = {
   handleOnAnswerButtonClick: (id: string) => Promise<void>;
   answers: string[];
   resultScore: number;
+  resetQuiz: () => void;
 };
 
 export const GameContext = createContext<TGameContext | null>(null);
@@ -54,6 +55,12 @@ export default function GameContextProvider({
     })
   ).length;
 
+  const resetQuiz = () => {
+    setCurrentQuestion(0);
+    setIsShowingResults(false);
+    setAnswers([]);
+  };
+
   return (
     <GameContext.Provider
       value={{
@@ -66,6 +73,7 @@ export default function GameContextProvider({
         handleOnAnswerButtonClick,
         answers,
         resultScore,
+        resetQuiz,
       }}
     >
       {children}
