@@ -10,7 +10,7 @@ export default function NewQuizForm() {
 
   return (
     <form className="flex flex-col space-y-5">
-      <div className="space-y-1">
+      <div className="space-y-0">
         <Label htmlFor="title">Title</Label>
         <Input id="title" placeholder="My quiz" />
       </div>
