@@ -1,3 +1,6 @@
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+
 export default function QuestionFormCell() {
   return (
     <div className="border-2 p-4 pt-2 rounded-md">
