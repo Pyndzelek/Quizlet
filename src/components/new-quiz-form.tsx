@@ -4,8 +4,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import CategorySelector from "./category-selector";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { Button } from "./ui/button";
+import { IoTrashBin } from "react-icons/io5";
+import { FaPlus } from "react-icons/fa";
 
 export default function NewQuizForm() {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -13,8 +15,14 @@ export default function NewQuizForm() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm();
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "questions",
+  });
 
   return (
     <form
@@ -30,72 +38,85 @@ export default function NewQuizForm() {
 
       <CategorySelector setSelectedCategory={setSelectedCategory} />
 
-      {/* 1 Question container */}
-      <div className="border-2 p-4 pt-2 rounded-md">
-        <div className="space-y-1">
-          <Label htmlFor="owner" className="text-lg">
-            Question 1
-          </Label>
-          <Input
-            id="owner"
-            placeholder="What is the capital of France?"
-            {...register("question")}
-          />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3">
-          <div>
-            <Label htmlFor="q1a1">
-              Answer A - <span className="text-green-600">CORRECT ANSWER</span>
-            </Label>
-            <Input id="q1a1" {...register("answer1")} />
+      {/* Question container */}
+      {fields.map((field, index) => (
+        <section key={field.id} className="border-2 p-4 pt-2 rounded-md">
+          <div className="flex justify-between">
+            <div className="space-y-1 w-full">
+              <Label htmlFor={`question${index}`} className="text-lg">
+                Question {index + 1}
+              </Label>
+              <Input
+                id={`question${index}`}
+                placeholder="What is the capital of France?"
+                {...register(`questions.${index}.question`)}
+              />
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                remove(index);
+              }}
+              className="mb-auto pt-1"
+            >
+              <IoTrashBin className="text-indigo-600 hover:text-indigo-500" />
+            </button>
           </div>
-          <div>
-            <Label htmlFor="q2a2">Answer B</Label>
-            <Input id="q1a2" {...register("answer2")} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3">
+            <div>
+              <Label htmlFor={`q${index}a1`}>
+                Answer A -{" "}
+                <span className="text-green-600">CORRECT ANSWER</span>
+              </Label>
+              <Input
+                id={`q${index}a1`}
+                {...register(`questions.${index}.answer1`)}
+              />
+            </div>
+            <div>
+              <Label htmlFor={`q${index}a2`}>Answer B</Label>
+              <Input
+                id={`q${index}a2`}
+                {...register(`questions.${index}.answer2`)}
+              />
+            </div>
+            <div>
+              <Label htmlFor={`q${index}a3`}>Answer C</Label>
+              <Input
+                id={`q${index}a3`}
+                {...register(`questions.${index}.answer3`)}
+              />
+            </div>
+            <div>
+              <Label htmlFor={`q${index}a4`}>Answer D</Label>
+              <Input
+                id={`q${index}a4`}
+                {...register(`questions.${index}.answer4`)}
+              />
+            </div>
           </div>
-          <div>
-            <Label htmlFor="q2a3">Answer C</Label>
-            <Input id="q1a3" {...register("answer3")} />
-          </div>
-          <div>
-            <Label htmlFor="q2a4">Answer D</Label>
-            <Input id="q1a4" {...register("answer4")} />
-          </div>
-        </div>
-      </div>
+        </section>
+      ))}
 
-      <div className="border-2 p-4 pt-2 rounded-md">
-        <div className="space-y-1">
-          <Label htmlFor="question2" className="text-lg">
-            Question 2
-          </Label>
-          <Input id="question2" placeholder="What is the capital of Italy?" />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3">
-          <div>
-            <Label htmlFor="q2a1">
-              Answer A - <span className="text-green-600">CORRECT ANSWER</span>
-            </Label>
-            <Input id="q2a1" />
-          </div>
-          <div>
-            <Label htmlFor="q2a2">Answer B</Label>
-            <Input id="q2a2" />
-          </div>
-          <div>
-            <Label htmlFor="q2a3">Answer C</Label>
-            <Input id="q2a3" />
-          </div>
-          <div>
-            <Label htmlFor="q2a4">Answer D</Label>
-            <Input id="q2a4" />
-          </div>
-        </div>
-      </div>
+      {/* Button to add a new question */}
       <Button
-        type="submit"
-        className="bg-blue-500 text-white px-4 py-2 rounded-md"
+        size="icon"
+        className="mx-auto bg-indigo-500 text-white px-4 py-2 rounded-full"
+        type="button"
+        onClick={() => {
+          append({
+            question: "",
+            answer1: "",
+            answer2: "",
+            answer3: "",
+            answer4: "",
+          });
+        }}
       >
+        <FaPlus className="text-white" />
+      </Button>
+
+      <Button type="submit" variant={"outline"} className="mx-auto">
         Create Quiz
       </Button>
     </form>
