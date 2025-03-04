@@ -8,16 +8,37 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { Button } from "./ui/button";
 import { IoTrashBin } from "react-icons/io5";
 import { FaPlus } from "react-icons/fa";
+import { createNewQuiz } from "@/actions/actions";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip";
 
 export default function NewQuizForm() {
   const [selectedCategory, setSelectedCategory] = useState("");
 
   const {
     register,
-    handleSubmit,
+    getValues,
     control,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      title: "",
+      category: "",
+      questions: [
+        {
+          question: "",
+          answer1: "",
+          answer2: "",
+          answer3: "",
+          answer4: "",
+        },
+      ],
+    },
+  });
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -27,13 +48,23 @@ export default function NewQuizForm() {
   return (
     <form
       className="flex flex-col space-y-5"
-      onSubmit={handleSubmit((data) => {
-        console.log(data);
-      })}
+      action={async () => {
+        const data = getValues();
+        const quizData = {
+          title: data.title,
+          questions: data.questions,
+        };
+        const result = await createNewQuiz(quizData, selectedCategory);
+      }}
     >
       <div className="space-y-0">
         <Label htmlFor="title">Title</Label>
-        <Input id="title" placeholder="My quiz" {...register("title")} />
+        <Input
+          required
+          id="title"
+          placeholder="My quiz"
+          {...register("title")}
+        />
       </div>
 
       <CategorySelector setSelectedCategory={setSelectedCategory} />
@@ -47,6 +78,7 @@ export default function NewQuizForm() {
                 Question {index + 1}
               </Label>
               <Input
+                required
                 id={`question${index}`}
                 placeholder="What is the capital of France?"
                 {...register(`questions.${index}.question`)}
@@ -99,22 +131,31 @@ export default function NewQuizForm() {
       ))}
 
       {/* Button to add a new question */}
-      <Button
-        size="icon"
-        className="mx-auto bg-indigo-500 text-white px-4 py-2 rounded-full"
-        type="button"
-        onClick={() => {
-          append({
-            question: "",
-            answer1: "",
-            answer2: "",
-            answer3: "",
-            answer4: "",
-          });
-        }}
-      >
-        <FaPlus className="text-white" />
-      </Button>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              size="icon"
+              className="mx-auto bg-indigo-500 text-white px-4 py-2 rounded-full"
+              type="button"
+              onClick={() => {
+                append({
+                  question: "",
+                  answer1: "",
+                  answer2: "",
+                  answer3: "",
+                  answer4: "",
+                });
+              }}
+            >
+              <FaPlus className="text-white" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Add question</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
 
       <Button type="submit" variant={"outline"} className="mx-auto">
         Create Quiz

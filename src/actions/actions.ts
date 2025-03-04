@@ -1,6 +1,6 @@
 "use server";
 
-import { wholeQuiz } from "@/lib/types";
+import { QuizData, wholeQuiz } from "@/lib/types";
 import prisma from "../lib/db";
 
 export async function getWholeQuizById(id: string) {
@@ -43,4 +43,28 @@ export async function getWholeQuizById(id: string) {
   };
 
   return wholeQuiz;
+}
+
+export async function createNewQuiz(quizData: QuizData, category: string) {
+  const quiz = await prisma.quiz.create({
+    data: {
+      title: quizData.title,
+      category: category,
+      questions: {
+        create: quizData.questions.map((question) => ({
+          text: question.question,
+          answers: {
+            create: [
+              { text: question.answer1, isCorrect: true },
+              { text: question.answer2, isCorrect: false },
+              { text: question.answer3, isCorrect: false },
+              { text: question.answer4, isCorrect: false },
+            ],
+          },
+        })),
+      },
+    },
+  });
+
+  return quiz;
 }
