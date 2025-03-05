@@ -59,7 +59,7 @@ export default function NewQuizForm({
               title: quizData.quiz.title,
               category: quizData.quiz.category,
               questions: quizData.questions.map((question) => ({
-                question: question.question,
+                question: question.question.text,
                 answer1: question.answers[0].text as string,
                 answer2: question.answers[1].text as string,
                 answer3: question.answers[2].text as string,
