@@ -3,6 +3,7 @@
 import { QuizData, wholeQuiz } from "@/lib/types";
 import prisma from "../lib/db";
 import { redirect } from "next/navigation";
+import { formSchema } from "@/lib/validations";
 
 export async function getWholeQuizById(id: string) {
   const quizData = await prisma.quiz.findUnique({
@@ -47,25 +48,39 @@ export async function getWholeQuizById(id: string) {
 }
 
 export async function createNewQuiz(quizData: QuizData, category: string) {
-  const quiz = await prisma.quiz.create({
-    data: {
-      title: quizData.title,
-      category: category,
-      questions: {
-        create: quizData.questions.map((question) => ({
-          text: question.question,
-          answers: {
-            create: [
-              { text: question.answer1, isCorrect: true },
-              { text: question.answer2, isCorrect: false },
-              { text: question.answer3, isCorrect: false },
-              { text: question.answer4, isCorrect: false },
-            ],
-          },
-        })),
-      },
-    },
-  });
+  const newQuiz = {
+    ...quizData,
+    category,
+  };
 
-  redirect("/quiz/" + quiz.id);
+  const validatedQuizObject = formSchema.safeParse(newQuiz);
+  if (!validatedQuizObject.success) {
+    return { message: "Invalid form data" };
+  }
+
+  try {
+    const quiz = await prisma.quiz.create({
+      data: {
+        title: validatedQuizObject.data.title,
+        category: validatedQuizObject.data.category,
+        questions: {
+          create: validatedQuizObject.data.questions.map((question) => ({
+            text: question.question,
+            answers: {
+              create: [
+                { text: question.answer1, isCorrect: true },
+                { text: question.answer2, isCorrect: false },
+                { text: question.answer3, isCorrect: false },
+                { text: question.answer4, isCorrect: false },
+              ],
+            },
+          })),
+        },
+      },
+    });
+
+    redirect("/quiz/" + quiz.id);
+  } catch (error) {
+    throw error;
+  }
 }

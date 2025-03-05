@@ -15,31 +15,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip";
-import { z } from "zod";
+
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/router";
-
-const formSchema = z.object({
-  title: z
-    .string({ message: "Title is required" })
-    .min(3, { message: "Title should be at least 3 characters long" })
-    .trim(),
-  category: z.string(),
-  questions: z.array(
-    z.object({
-      question: z
-        .string({ message: "Fill in this form" })
-        .min(3, { message: "Question should be at least 3 characters long" })
-        .trim(),
-      answer1: z.string().min(1, { message: "Fill in this form" }).trim(),
-      answer2: z.string().min(1, { message: "Fill in this form" }).trim(),
-      answer3: z.string().min(1, { message: "Fill in this form" }).trim(),
-      answer4: z.string().min(1, { message: "Fill in this form" }).trim(),
-    })
-  ),
-});
-
-type formType = z.infer<typeof formSchema>;
+import { formSchema, formType } from "@/lib/validations";
 
 export default function NewQuizForm() {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -68,7 +46,7 @@ export default function NewQuizForm() {
         },
       ],
     },
-    reValidateMode: "onBlur",
+    reValidateMode: "onChange",
   });
 
   const { fields, append, remove } = useFieldArray({
