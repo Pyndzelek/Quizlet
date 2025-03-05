@@ -2,6 +2,7 @@
 
 import { QuizData, wholeQuiz } from "@/lib/types";
 import prisma from "../lib/db";
+import { redirect } from "next/navigation";
 
 export async function getWholeQuizById(id: string) {
   const quizData = await prisma.quiz.findUnique({
@@ -66,5 +67,5 @@ export async function createNewQuiz(quizData: QuizData, category: string) {
     },
   });
 
-  return quiz;
+  redirect("/quiz/" + quiz.id);
 }

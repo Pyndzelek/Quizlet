@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { FormEvent, useState } from "react";
 import CategorySelector from "./category-selector";
-import { set, useFieldArray, useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { Button } from "./ui/button";
 import { IoTrashBin } from "react-icons/io5";
 import { FaPlus } from "react-icons/fa";
@@ -17,6 +17,7 @@ import {
 } from "./ui/tooltip";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/router";
 
 const formSchema = z.object({
   title: z
@@ -92,13 +93,10 @@ export default function NewQuizForm() {
       title: data.title,
       questions: data.questions,
     };
-    const result = await createNewQuiz(quizData, selectedCategory);
-    if (result) {
-      console.log("Quiz created successfully");
+    const newQuiz = await createNewQuiz(quizData, selectedCategory);
 
-      // Optionally, you can reset the form after successful submission
-      // reset();
-    }
+    // Optionally, you can reset the form after successful submission
+    // reset();
   };
 
   return (
