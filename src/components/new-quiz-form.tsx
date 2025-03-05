@@ -2,13 +2,13 @@
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import CategorySelector from "./category-selector";
 import { useFieldArray, useForm } from "react-hook-form";
 import { Button } from "./ui/button";
 import { IoTrashBin } from "react-icons/io5";
 import { FaPlus } from "react-icons/fa";
-import { createNewQuiz } from "@/actions/actions";
+import { createNewQuiz, getWholeQuizById } from "@/actions/actions";
 import {
   Tooltip,
   TooltipContent,
@@ -18,12 +18,31 @@ import {
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formSchema, formType } from "@/lib/validations";
+import { wholeQuiz } from "@/lib/types";
 
-export default function NewQuizForm() {
+type NewQuizFormProps = {
+  actionType: "add" | "edit";
+  quizData?: wholeQuiz;
+};
+
+export default function NewQuizForm({
+  actionType,
+  quizData,
+}: NewQuizFormProps) {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [categoryError, setCategoryError] = useState<
     null | "Category is required"
   >(null);
+
+  if (actionType === "edit" && !quizData) {
+    return <div>Not Found Quiz</div>;
+  }
+
+  useEffect(() => {
+    if (actionType === "edit" && quizData) {
+      setSelectedCategory(quizData.quiz.category);
+    }
+  }, []);
 
   const {
     register,
@@ -33,19 +52,46 @@ export default function NewQuizForm() {
     formState: { errors },
   } = useForm<formType>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      title: "",
-      category: "",
-      questions: [
-        {
-          question: "",
-          answer1: "",
-          answer2: "",
-          answer3: "",
-          answer4: "",
-        },
-      ],
-    },
+    defaultValues:
+      actionType === "edit"
+        ? quizData
+          ? {
+              title: quizData.quiz.title,
+              category: quizData.quiz.category,
+              questions: quizData.questions.map((question) => ({
+                question: question.question,
+                answer1: question.answers[0].text as string,
+                answer2: question.answers[1].text as string,
+                answer3: question.answers[2].text as string,
+                answer4: question.answers[3].text as string,
+              })),
+            }
+          : {
+              title: "",
+              category: "",
+              questions: [
+                {
+                  question: "",
+                  answer1: "",
+                  answer2: "",
+                  answer3: "",
+                  answer4: "",
+                },
+              ],
+            }
+        : {
+            title: "",
+            category: "",
+            questions: [
+              {
+                question: "",
+                answer1: "",
+                answer2: "",
+                answer3: "",
+                answer4: "",
+              },
+            ],
+          },
     reValidateMode: "onChange",
   });
 

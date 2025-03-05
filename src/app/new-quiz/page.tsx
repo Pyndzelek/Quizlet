@@ -11,7 +11,7 @@ export default function NewQuizPage() {
       </div>
       <Separator orientation="horizontal" className=" mt-3 mb-3" />
 
-      <NewQuizForm />
+      <NewQuizForm actionType="add" />
     </Container>
   );
 }
