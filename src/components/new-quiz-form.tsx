@@ -2,9 +2,9 @@
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import CategorySelector from "./category-selector";
-import { useFieldArray, useForm } from "react-hook-form";
+import { set, useFieldArray, useForm } from "react-hook-form";
 import { Button } from "./ui/button";
 import { IoTrashBin } from "react-icons/io5";
 import { FaPlus } from "react-icons/fa";
@@ -15,16 +15,45 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const formSchema = z.object({
+  title: z
+    .string({ message: "Title is required" })
+    .min(3, { message: "Title should be at least 3 characters long" })
+    .trim(),
+  category: z.string(),
+  questions: z.array(
+    z.object({
+      question: z
+        .string({ message: "Fill in this form" })
+        .min(3, { message: "Question should be at least 3 characters long" })
+        .trim(),
+      answer1: z.string().min(1, { message: "Fill in this form" }).trim(),
+      answer2: z.string().min(1, { message: "Fill in this form" }).trim(),
+      answer3: z.string().min(1, { message: "Fill in this form" }).trim(),
+      answer4: z.string().min(1, { message: "Fill in this form" }).trim(),
+    })
+  ),
+});
+
+type formType = z.infer<typeof formSchema>;
 
 export default function NewQuizForm() {
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [categoryError, setCategoryError] = useState<
+    null | "Category is required"
+  >(null);
 
   const {
     register,
+    trigger,
     getValues,
     control,
     formState: { errors },
-  } = useForm({
+  } = useForm<formType>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
       category: "",
@@ -38,6 +67,7 @@ export default function NewQuizForm() {
         },
       ],
     },
+    reValidateMode: "onBlur",
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -45,29 +75,48 @@ export default function NewQuizForm() {
     name: "questions",
   });
 
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // Prevent default form submission behavior
+
+    // validation
+    const validation = await trigger();
+    if (!selectedCategory) {
+      setCategoryError("Category is required");
+    } else {
+      setCategoryError(null);
+    }
+    if (!validation || !selectedCategory) return;
+
+    const data = getValues();
+    const quizData = {
+      title: data.title,
+      questions: data.questions,
+    };
+    const result = await createNewQuiz(quizData, selectedCategory);
+    if (result) {
+      console.log("Quiz created successfully");
+
+      // Optionally, you can reset the form after successful submission
+      // reset();
+    }
+  };
+
   return (
-    <form
-      className="flex flex-col space-y-5"
-      action={async () => {
-        const data = getValues();
-        const quizData = {
-          title: data.title,
-          questions: data.questions,
-        };
-        const result = await createNewQuiz(quizData, selectedCategory);
-      }}
-    >
+    <form className="flex flex-col space-y-5" onSubmit={onSubmit}>
       <div className="space-y-0">
         <Label htmlFor="title">Title</Label>
-        <Input
-          required
-          id="title"
-          placeholder="My quiz"
-          {...register("title")}
-        />
+        <Input id="title" placeholder="My quiz" {...register("title")} />
+        {errors.title && (
+          <p className="text-red-500 text-sm">{errors.title.message}</p>
+        )}
       </div>
 
-      <CategorySelector setSelectedCategory={setSelectedCategory} />
+      <div className="space-y-0">
+        <CategorySelector setSelectedCategory={setSelectedCategory} />
+        {categoryError && (
+          <p className="text-red-500 text-sm -mt-4">{categoryError}</p>
+        )}
+      </div>
 
       {/* Question container */}
       {fields.map((field, index) => (
@@ -78,21 +127,27 @@ export default function NewQuizForm() {
                 Question {index + 1}
               </Label>
               <Input
-                required
                 id={`question${index}`}
                 placeholder="What is the capital of France?"
                 {...register(`questions.${index}.question`)}
               />
+              {errors.questions?.[index]?.question && (
+                <p className="text-red-500 text-sm">
+                  {errors.questions[index].question.message}
+                </p>
+              )}
             </div>
-            <button
-              type="button"
-              onClick={() => {
-                remove(index);
-              }}
-              className="mb-auto pt-1"
-            >
-              <IoTrashBin className="text-indigo-600 hover:text-indigo-500" />
-            </button>
+            {index === 0 ? null : (
+              <button
+                type="button"
+                onClick={() => {
+                  remove(index);
+                }}
+                className="mb-auto pt-1"
+              >
+                <IoTrashBin className="text-indigo-600 hover:text-indigo-500" />
+              </button>
+            )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3">
             <div>
@@ -104,6 +159,11 @@ export default function NewQuizForm() {
                 id={`q${index}a1`}
                 {...register(`questions.${index}.answer1`)}
               />
+              {errors.questions?.[index]?.answer1 && (
+                <p className="text-red-500 text-sm">
+                  {errors.questions[index].answer1.message}
+                </p>
+              )}
             </div>
             <div>
               <Label htmlFor={`q${index}a2`}>Answer B</Label>
@@ -111,6 +171,11 @@ export default function NewQuizForm() {
                 id={`q${index}a2`}
                 {...register(`questions.${index}.answer2`)}
               />
+              {errors.questions?.[index]?.answer2 && (
+                <p className="text-red-500 text-sm">
+                  {errors.questions[index].answer2.message}
+                </p>
+              )}
             </div>
             <div>
               <Label htmlFor={`q${index}a3`}>Answer C</Label>
@@ -118,6 +183,11 @@ export default function NewQuizForm() {
                 id={`q${index}a3`}
                 {...register(`questions.${index}.answer3`)}
               />
+              {errors.questions?.[index]?.answer3 && (
+                <p className="text-red-500 text-sm">
+                  {errors.questions[index].answer3.message}
+                </p>
+              )}
             </div>
             <div>
               <Label htmlFor={`q${index}a4`}>Answer D</Label>
@@ -125,6 +195,11 @@ export default function NewQuizForm() {
                 id={`q${index}a4`}
                 {...register(`questions.${index}.answer4`)}
               />
+              {errors.questions?.[index]?.answer4 && (
+                <p className="text-red-500 text-sm">
+                  {errors.questions[index].answer4.message}
+                </p>
+              )}
             </div>
           </div>
         </section>
@@ -157,7 +232,7 @@ export default function NewQuizForm() {
         </Tooltip>
       </TooltipProvider>
 
-      <Button type="submit" variant={"outline"} className="mx-auto">
+      <Button variant={"outline"} className="mx-auto">
         Create Quiz
       </Button>
     </form>
