@@ -1,4 +1,5 @@
-import { FaPlay, FaShareAlt } from "react-icons/fa";
+import { FaPlay } from "react-icons/fa";
+import { FiEdit2 } from "react-icons/fi";
 import { Button } from "../ui/button";
 import Container from "../container";
 import { QuizEssentials } from "@/lib/types";
@@ -24,9 +25,11 @@ export default function QuizHeader({ quiz }: QuizHeaderProps) {
               <FaPlay style={{ width: "12px", height: "12px" }} /> Start quiz
             </Button>
           </Link>
-          <Button variant="outline">
-            <FaShareAlt /> Share
-          </Button>
+          <Link href={`/quiz/${quiz.id}/edit`}>
+            <Button variant="outline">
+              <FiEdit2 /> Edit
+            </Button>
+          </Link>
         </div>
       </header>
     </Container>
