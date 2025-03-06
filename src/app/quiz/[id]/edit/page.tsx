@@ -23,7 +23,7 @@ export default async function NewQuizPage({ params }: NewQuizPageProps) {
       </div>
       <Separator orientation="horizontal" className=" mt-3 mb-3" />
 
-      <NewQuizForm actionType="edit" quizData={quizData} />
+      <NewQuizForm actionType="edit" quizData={quizData} quizId={id} />
     </Container>
   );
 }

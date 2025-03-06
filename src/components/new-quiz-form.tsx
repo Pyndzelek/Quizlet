@@ -8,7 +8,7 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { Button } from "./ui/button";
 import { IoTrashBin } from "react-icons/io5";
 import { FaPlus } from "react-icons/fa";
-import { createNewQuiz, getWholeQuizById } from "@/actions/actions";
+import { createNewQuiz, EditQuiz } from "@/actions/actions";
 import {
   Tooltip,
   TooltipContent,
@@ -23,11 +23,13 @@ import { wholeQuiz } from "@/lib/types";
 type NewQuizFormProps = {
   actionType: "add" | "edit";
   quizData?: wholeQuiz;
+  quizId?: string;
 };
 
 export default function NewQuizForm({
   actionType,
   quizData,
+  quizId,
 }: NewQuizFormProps) {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [categoryError, setCategoryError] = useState<
@@ -35,6 +37,9 @@ export default function NewQuizForm({
   >(null);
 
   if (actionType === "edit" && !quizData) {
+    return <div>Not Found Quiz</div>;
+  }
+  if (actionType === "edit" && !quizId) {
     return <div>Not Found Quiz</div>;
   }
 
@@ -117,7 +122,11 @@ export default function NewQuizForm({
       title: data.title,
       questions: data.questions,
     };
-    const newQuiz = await createNewQuiz(quizData, selectedCategory);
+    if (actionType === "edit" && quizId) {
+      const updatedQuiz = await EditQuiz(quizData, selectedCategory, quizId);
+    } else if (actionType === "add") {
+      const newQuiz = await createNewQuiz(quizData, selectedCategory);
+    }
 
     // Optionally, you can reset the form after successful submission
     // reset();
@@ -255,10 +264,8 @@ export default function NewQuizForm({
       </TooltipProvider>
 
       <Button variant={"outline"} className="mx-auto">
-        Create Quiz
+        {actionType === "edit" ? "Update Quiz" : "Create Quiz"}
       </Button>
     </form>
   );
 }
-
-//qNaM - question N answer M
