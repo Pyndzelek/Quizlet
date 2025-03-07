@@ -58,32 +58,18 @@ export default function NewQuizForm({
   } = useForm<formType>({
     resolver: zodResolver(formSchema),
     defaultValues:
-      actionType === "edit"
-        ? quizData
-          ? {
-              title: quizData.quiz.title,
-              category: quizData.quiz.category,
-              questions: quizData.questions.map((question) => ({
-                question: question.question.text,
-                answer1: question.answers[0].text as string,
-                answer2: question.answers[1].text as string,
-                answer3: question.answers[2].text as string,
-                answer4: question.answers[3].text as string,
-              })),
-            }
-          : {
-              title: "",
-              category: "",
-              questions: [
-                {
-                  question: "",
-                  answer1: "",
-                  answer2: "",
-                  answer3: "",
-                  answer4: "",
-                },
-              ],
-            }
+      quizData && actionType === "edit"
+        ? {
+            title: quizData.quiz.title,
+            category: quizData.quiz.category,
+            questions: quizData.questions.map((question) => ({
+              question: question.question.text,
+              answer1: question.answers[0].text as string,
+              answer2: question.answers[1].text as string,
+              answer3: question.answers[2].text as string,
+              answer4: question.answers[3].text as string,
+            })),
+          }
         : {
             title: "",
             category: "",
