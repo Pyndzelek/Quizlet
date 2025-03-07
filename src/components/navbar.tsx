@@ -11,6 +11,12 @@ export default function Navbar() {
           <span className="text-2xl font-bold text-gray-800">Quizus</span>
         </Link>
         <div className="hidden md:flex items-center space-x-8">
+          <Link
+            href="/new-quiz"
+            className="text-gray-600 hover:text-indigo-600"
+          >
+            New quiz
+          </Link>
           <Link href="/browse" className="text-gray-600 hover:text-indigo-600">
             Categories
           </Link>
