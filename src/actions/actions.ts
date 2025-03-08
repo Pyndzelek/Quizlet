@@ -130,3 +130,16 @@ export async function EditQuiz(
     throw error;
   }
 }
+
+export async function deleteQuiz(id: string) {
+  try {
+    await prisma.quiz.delete({
+      where: {
+        id,
+      },
+    });
+    redirect("/");
+  } catch (error) {
+    throw error;
+  }
+}
