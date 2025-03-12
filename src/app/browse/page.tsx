@@ -10,9 +10,11 @@ import QuizCell from "@/components/quiz-cell";
 import Link from "next/link";
 import prisma from "@/lib/db";
 import { Button } from "@/components/ui/button";
+import { sleep } from "@/lib/utils";
 
 export default async function BrowsePage() {
   const quizes = await prisma.quiz.findMany();
+  await sleep(10000);
 
   return (
     <>
