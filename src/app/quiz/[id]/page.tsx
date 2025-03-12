@@ -2,6 +2,7 @@ import { getWholeQuizById } from "@/actions/actions";
 import Container from "@/components/container";
 import QuestionsList from "@/components/quiestions-list";
 import QuizHeader from "@/components/quiz-details/quiz-header";
+import { sleep } from "@/lib/utils";
 
 type QuizPageProps = {
   params: {
@@ -13,6 +14,8 @@ export default async function QuizPage({ params }: QuizPageProps) {
   const id = await params.id;
 
   const quiz = await getWholeQuizById(id);
+
+  await sleep(10000);
 
   return (
     <>
