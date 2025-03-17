@@ -4,7 +4,6 @@ import { QuizData, wholeQuiz } from "@/lib/types";
 import prisma from "../lib/db";
 import { redirect } from "next/navigation";
 import { formSchema } from "@/lib/validations";
-import { create } from "domain";
 
 export async function getWholeQuizById(id: string) {
   const quizData = await prisma.quiz.findUnique({

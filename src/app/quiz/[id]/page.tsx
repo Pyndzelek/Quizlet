@@ -15,7 +15,7 @@ export default async function QuizPage({ params }: QuizPageProps) {
 
   const quiz = await getWholeQuizById(id);
 
-  await sleep(10000);
+  await sleep(1000);
 
   return (
     <>

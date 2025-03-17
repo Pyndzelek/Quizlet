@@ -14,7 +14,7 @@ import { sleep } from "@/lib/utils";
 
 export default async function BrowsePage() {
   const quizes = await prisma.quiz.findMany();
-  await sleep(10000);
+  await sleep(1000);
 
   return (
     <>
